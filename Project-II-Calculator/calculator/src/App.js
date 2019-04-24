@@ -3,7 +3,7 @@ import Mathjs from 'mathjs'
 import './App.css'
 import Calculator from './components/DisplayComponents/CalculatorDisplay'
 
-const initialState = {display: ''}
+const initialState = {display: '0'}
 
 
 export default function App(props) {
