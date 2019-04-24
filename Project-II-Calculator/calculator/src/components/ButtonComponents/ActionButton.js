@@ -1,15 +1,15 @@
-import React from 'react';
+import React, { useLayoutEffect } from 'react';
 import './Button.css';
 
 
-export default function ActionButton({content, large, updateDisplay}) {
+export default function ActionButton(props) {
     return (
-        (large)
-            ? <div className="btn action large" onClick={updateDisplay}>
-                    {content}
+        (props.large)
+            ? <div className="btn action large" onClick={props.updateDisplay}>
+                    {props.content}
               </div> 
-            : <div className="btn action" onClick={updateDisplay}>
-                    {content}
+            : <div className="btn action" onClick={props.updateDisplay}>
+                    {props.content}
               </div>
     )
 }
