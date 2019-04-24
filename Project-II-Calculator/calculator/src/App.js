@@ -1,50 +1,17 @@
-import React, { Component } from 'react'
+import React, { useState } from 'react'
 import './App.css'
 import Calculator from './components/DisplayComponents/CalculatorDisplay'
 
-export default class App extends Component {
-  constructor() {
-    super()
-    this.state = {
-      value: ''
-    }
-    this.updateDisplay = this.updateDisplay.bind(this)
-  }
-
-  updateDisplay(e) {
-    console.log(e.currentTarget.textContent)
-    this.setState(
-      (prevState, _) => {
-        e.persist()
-        return {
-          value: prevState.value + e.currentTarget.textContent
-        }
-      }
-    )
-
-
-
-    //============================
-    // USE REFS, NOT E.TARGET!!!!!
-    //============================
-
-
-
-
+export default function App(props) {
+  const [display, setDisplay] = useState('')
+  const reset = () => setDisplay('') // Helper
+  const update = (str) => setDisplay( (prevDisplay) => prevDisplay + str )
     
-    //   this.setState((prevState, _) => ({
-    //     value: prevState.value + e.target.textContent
-    //   })
-    // )
-  }
-  
-  render() {
-    return (
-      <div className="app">
-        <Calculator updateDisplay={this.updateDisplay}/>
-      </div>
+  return (
+    <div className="app">
+      <Calculator reset={reset} update={update}/>
+    </div>
     )
-  }
 }
   
 
