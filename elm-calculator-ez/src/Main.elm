@@ -32,7 +32,7 @@ type alias Model =
 
 init : ( Model, Cmd Msg )
 init =
-    ( { value = "" }
+    ( { value = "0" }
     , Cmd.none
     )
 
@@ -42,16 +42,26 @@ init =
 
 
 type Msg
-    = BuildCalculation
+    = BuildCalculation String
     | PerformCalculation
+    | ClearDisplay
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
-    ( model, Cmd.none )
+    case msg of
+        BuildCalculation operation ->
+            ( { model | value = model.value ++ operation }, Cmd.none )
+
+        PerformCalculation ->
+            ( model, Cmd.none )
+
+        ClearDisplay ->
+            ( { model | value = "0" }, Cmd.none )
 
 
 
+-- TODO: add `eval` helper to perfom calculation on line 55 ^
 ---- VIEW ----
 
 
@@ -59,7 +69,7 @@ view : Model -> Html Msg
 view model =
     let
         row1 =
-            [ div [ id "display" ] [ text "0" ] ]
+            [ div [ id "display" ] [ text model.value ] ]
 
         row2 =
             renderBtns [ Action (bigBtn "clear"), Action (smallBtn "/") ]
@@ -123,7 +133,13 @@ renderBtn btn =
                     , ( "action", True )
                     , ( "large", props.isLarge )
                     ]
-                , onClick BuildCalculation
+                , onClick
+                    (if props.content == "clear" then
+                        ClearDisplay
+
+                     else
+                        BuildCalculation props.content
+                    )
                 ]
                 [ text props.content ]
 
@@ -134,7 +150,7 @@ renderBtn btn =
                     , ( "number", True )
                     , ( "large", props.isLarge )
                     ]
-                , onClick BuildCalculation
+                , onClick (BuildCalculation props.content)
                 ]
                 [ text props.content ]
 
